@@ -7,8 +7,8 @@
 		"dockerfile": "Dockerfile"
 	},
     "remoteUser": "root",
-	"workspaceFolder": "/home/root/workspace", //! Ordner im container 
-	"workspaceMount": "source=${localWorkspaceFolder},target=/home/root/workspace,type=bind", // VSCode Workspace
+	"workspaceFolder": "/root/workspace", //! Ordner im container 
+	"workspaceMount": "source=${localWorkspaceFolder},target=/root/workspace,type=bind", // VSCode Workspace
 	"customizations": {
 		"vscode": {
 			"settings": {
@@ -21,7 +21,7 @@
 			"llvm-vs-code-extensions.vscode-clangd",
 			"vadimcn.vscode-lldb",
 			"cschlosser.doxdocgen",
-			"cheshirekow.cmake-format",
+			"ms-vscode.cmake-tools",
 			"SteveBushResearch.BuildOutputColorizer"
 		]
 		}
