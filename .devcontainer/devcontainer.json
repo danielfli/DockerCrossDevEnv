@@ -1,14 +1,14 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-	"name": "develenvtoraspix",
+	"name": "dockerdevenv_arm64",
 	"privileged": true,
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-    "remoteUser": "dan",
-	"workspaceFolder": "/home/dan/workspace", //! Ordner im container 
-	"workspaceMount": "source=${localWorkspaceFolder},target=/home/dan/workspace,type=bind", // VSCode Workspace
+    "remoteUser": "root",
+	"workspaceFolder": "/home/root/workspace", //! Ordner im container 
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/root/workspace,type=bind", // VSCode Workspace
 	"customizations": {
 		"vscode": {
 			"settings": {
@@ -22,7 +22,6 @@
 			"vadimcn.vscode-lldb",
 			"cschlosser.doxdocgen",
 			"cheshirekow.cmake-format",
-			"github.copilot",
 			"SteveBushResearch.BuildOutputColorizer"
 		]
 		}
