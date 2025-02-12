@@ -21,15 +21,21 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     schroot debootstrap ubuntu-dev-tools \
     cmake \
     gdb \
-    wget rsync \
+    wget \
     clangd \
     clang-format \
     ninja-build \
     ccache \
     ssh \
-    # gcc-arm-linux-gnueabihf \
+    #! armhf e.g. Rasp 1/Zero 
+        #gcc-arm-linux-gnueabihf \
+        #g++-arm-linux-gnueabihf \
+        #crossbuild-essential-armhf \
+    #! arm64 e.g. Rasp3/Rasp4
     gcc-aarch64-linux-gnu \
-    crossbuild-essential-arm64
+    g++-aarch64-linux-gnu \
+    crossbuild-essential-arm64 \
+    rsync 
 
 RUN apt-get clean autoclean && \
     apt-get autoremove -y && \

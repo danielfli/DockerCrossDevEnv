@@ -2,16 +2,21 @@
 
 #This Skript ist for setting up, the arm64 crossbuild env 
 
-arm64=true 
+arm64=false 
+armhf=true
 
 ####################################################
 #################### Setup Mirror ##################
 ####################################################
 
 user="root"
-mirrorDebian="http://ftp.debian.org/debian"
+mirrorDebianarm64="http://ftp.debian.org/debian"
+mirrorDebianaarmhf="http://raspbian.raspberrypi.com/raspbian/"
 targetRelease="bookworm"
-packageInchroot="cmake,sudo"
+packageInchroot="cmake"
+#! Vielleicht nicht nötigt weil die in die Toolchain sollen? 
+packageInchrootARMHF="gcc-arm-linux-gnueabihf,g++-arm-linux-gnueabihf,crossbuild-essential-armhf"
+packageInchrootARM64="gcc-aarch64-linux-gnu,g++-aarch64-linux-gnu,crossbuild-essential-arm64"
 
 ####################################################
 #################### doing ... #####################
@@ -19,7 +24,7 @@ packageInchroot="cmake,sudo"
 
 if [[ "${arm64}" == true ]]; then
     debootstrap --arch=arm64 --variant=buildd --components=main --include=$packageInchroot \
-    $targetRelease /opt/raspberry/arm64 $mirrorDebian $targetRelease --verbose
+    $targetRelease /opt/raspberry/arm64 $mirrorDebianarm64 --verbose
 
 #chroot config
 cat <<EOF >>/etc/schroot/schroot.conf
@@ -39,5 +44,30 @@ EOF
   fi
 
   echo "/opt/raspberry/arm64 /opt/raspberry/arm64 none rw,bind 0 0" | sudo tee -a /etc/schroot/default/fstab 
+fi
+
+
+if [[ "${armhf}" == true ]]; then
+    debootstrap --arch=armhf --variant=buildd --components=main --no-check-gpg --include=$packageInchroot \
+        $targetRelease /opt/raspberry/armhf $mirrorDebianaarmhf $targetRelease --verbose
+
+#chroot config
+cat <<EOF >>/etc/schroot/schroot.conf
+
+[raspi-armhf]
+description=chroot raspberry pi
+type=directory
+directory=/opt/raspberry/armhf
+users=root
+
+EOF
+
+  if [[ "${user}" == "root" ]]; then
+    echo "/$user/workspace /$user/workspace none rw,bind 0 0" | sudo tee -a /etc/schroot/default/fstab
+  else
+    echo "/home/$user/workspace /home/$user/workspace none rw,bind 0 0" | sudo tee -a /etc/schroot/default/fstab 
+  fi
+
+  echo "/opt/raspberry/armhf /opt/raspberry/armhf none rw,bind 0 0" | sudo tee -a /etc/schroot/default/fstab 
 fi
 
