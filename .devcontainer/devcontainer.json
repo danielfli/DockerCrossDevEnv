@@ -1,30 +1,33 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-	"name": "dockerdevenv_arm64",
-	"privileged": true,
+	"name": "dockercrossdevenv",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-    "remoteUser": "root",
-	"workspaceFolder": "/root/workspace", //! Ordner im container 
-	"workspaceMount": "source=${localWorkspaceFolder},target=/root/workspace,type=bind", // VSCode Workspace
+	"remoteUser": "root",
+	"workspaceFolder": "/root/workspace", //! workspace folder in container
+	"workspaceMount": "source=${localWorkspaceFolder},target=/root/workspace,type=bind", //! VSCode Workspace
 	"customizations": {
 		"vscode": {
 			"settings": {
 				"terminal.integrated.defaultProfile.linux": "bash"
 			},
-		  "extensions": [
-			"ms-vscode.cmake-tools",
-			"xaver.clang-format",
-			"twxs.cmake",
-			"llvm-vs-code-extensions.vscode-clangd",
-			"vadimcn.vscode-lldb",
-			"cschlosser.doxdocgen",
-			"ms-vscode.cmake-tools",
-			"SteveBushResearch.BuildOutputColorizer"
-		]
+			"extensions": [
+				"ms-vscode.cmake-tools",
+				"xaver.clang-format",
+				"twxs.cmake",
+				"llvm-vs-code-extensions.vscode-clangd",
+				"vadimcn.vscode-lldb",
+				"cschlosser.doxdocgen",
+				"ms-vscode.cmake-tools",
+				"SteveBushResearch.BuildOutputColorizer",
+				"codeium.codeium"
+			]
 		}
-	  },
+	},
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh" //! copy ssh key to container
+	],
 	"postCreateCommand": "gcc -v"
 }
