@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#This Skript ist for setting up, the arm64 crossbuild env 
-
+#! Choose your target architecture arm64 or armhf or both
 arm64=false 
 armhf=true
 
@@ -11,16 +10,12 @@ armhf=true
 
 user="root"
 mirrorDebianarm64="http://ftp.debian.org/debian"
-mirrorDebianaarmhf="http://raspbian.raspberrypi.com/raspbian/"
+mirrorDebianaarmhf="http://raspbian.raspberrypi.com/raspbian"
 targetRelease="bookworm"
 packageInchroot="cmake"
-#! Vielleicht nicht nötigt weil die in die Toolchain sollen? 
-packageInchrootARMHF="gcc-arm-linux-gnueabihf,g++-arm-linux-gnueabihf,crossbuild-essential-armhf"
-packageInchrootARM64="gcc-aarch64-linux-gnu,g++-aarch64-linux-gnu,crossbuild-essential-arm64"
 
-####################################################
-#################### doing ... #####################
-####################################################
+###################################################################################################################
+########################################## Raspberry arm64 ########################################################
 
 if [[ "${arm64}" == true ]]; then
     debootstrap --arch=arm64 --variant=buildd --components=main --include=$packageInchroot \
@@ -46,6 +41,8 @@ EOF
   echo "/opt/raspberry/arm64 /opt/raspberry/arm64 none rw,bind 0 0" | sudo tee -a /etc/schroot/default/fstab 
 fi
 
+###################################################################################################################
+########################################### armhf##################################################################
 
 if [[ "${armhf}" == true ]]; then
     debootstrap --arch=armhf --variant=buildd --components=main --no-check-gpg --include=$packageInchroot \
@@ -70,4 +67,3 @@ EOF
 
   echo "/opt/raspberry/armhf /opt/raspberry/armhf none rw,bind 0 0" | sudo tee -a /etc/schroot/default/fstab 
 fi
-
